@@ -109,9 +109,14 @@ export const gettAllHotels = (req,res)=>{
     res.status(200).json(hotels);
 };
 export const getHotelById = (req,res)=>{
-    const hotels = req.params.id;
-    const hotel = hotels.filter((hotel) =>hotel._id === hotelId);
+    const hotelId = req.params.id;
+    const hotel = hotels.find((hotel) =>hotel._id === hotelId);
+    if(!hotel){
+        res.status(400).send();
+    return;
+    }
     res.status(200).json(hotel);
+    
 };
 export const createHotel =(req,res)=>{
     const hotel = res.body;
