@@ -240,3 +240,9 @@ app.put("/:hotelId", (req, res) => {
 // Define the port to run the server
 const PORT = 8000;
 app.listen(PORT, console.log(`Server is running on port ${PORT}...`));
+
+
+
+
+// password="0yusFavVxfXPf23e"
+// .env ="mongodb+srv://yasithagodaarawa:0yusFavVxfXPf23e@aid-webapp.xvrwg.mongodb.net/?retryWrites=true&w=majority&appName=AID-WebApp"
