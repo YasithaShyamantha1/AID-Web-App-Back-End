@@ -1,3 +1,4 @@
+import Hotel from "../infrastucture/schemas/HotelModel.js";
 const hotels =[
     {
         _id: "1",
@@ -105,56 +106,45 @@ const hotels =[
       },
 ]
 
-export const gettAllHotels = (req,res)=>{
+export const gettAllHotels = async(req,res)=>{
+  const hotels = await Hotel.find({});
+
     res.status(200).json(hotels);
 };
-export const getHotelById = (req,res)=>{
-    const hotelId = req.params.id;
+export const getHotelById = async(req,res)=>{
+    const hotelId = await req.params.id;
     const hotel = hotels.find((hotel) =>hotel._id === hotelId);
     if(!hotel){
-        res.status(400).send();
+        res.status(404).send();
     return;
     }
     res.status(200).json(hotel);
     
 };
-export const createHotel =(req,res)=>{
-    const hotel = res.body;
-    if (
-        !hotel.name ||
-        !hotel.location ||
-        !hotel.rating ||
-        !hotel.reviews ||
-        !hotel.image ||
-        !hotel.price ||
-        !hotel.description
-      ) {
-        res.status(400).json({
-          message: "Please enter all required fields",
-        });
-        return;
-      }
-    
-      // Add the hotel
-      hotels.push({
-        _id: hotels.length + 1,
-        name: hotel.name,
-        location: hotel.location,
-        rating: hotel.rating,
-        reviews: hotel.reviews,
-        image: hotel.image,
-        price: hotel.price,
-        description: hotel.description,
-      });
-    
-      // Return the response
-      res.status(201).json({
-        message: "Hotel added successfully!",
-        hotel: hotel,
-      });
-}
-export const delteHotel =(req,res)=>{
-    const hotelId =res.params.id;
+export const createHotel = async (req, res) => {
+  const hotel = req.body;
+
+  try {
+    const newHotel = await Hotel.create({
+      name: hotel.name,
+      location: hotel.location,
+      rating: parseFloat(hotel.rating),
+      reviews: parseInt(hotel.reviews),
+      image: hotel.image,
+      price: parseInt(hotel.price),
+      description: hotel.description,
+    });
+
+    res.status(201).json(newHotel);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+};
+
+
+export const delteHotel = async(req,res)=>{
+    const hotelId =req.params.id;
+    await Hotel.findByIdAndDelete(hotelId);
 
     if (!hotels.find((hotel) => hotel._id === hotelId)) {
         res.status(404).send();
@@ -168,13 +158,13 @@ export const delteHotel =(req,res)=>{
       );
     
       // Return the response
-      res.status(200).json({
-        message: `Hotel ${hotelId} deleted successfully!`,
-      });
+      res.status(200).send();
 }
-export const updateHotel = (res,req)=>{
+export const updateHotel = async(req,res)=>{
     const hotelId = req.params.hotelId;
     const updatedHotel = req.body;
+
+    
 
     if (!hotels.find((hotel) => hotel._id === hotelId)) {
         res.status(404).send();
@@ -195,18 +185,7 @@ export const updateHotel = (res,req)=>{
         return;
       }
     
-      // Update the hotel
-      hotels.filter((hotel) => {
-        if (hotel._id === hotelId) {
-          hotel.name = updatedHotel.name;
-          hotel.location = updatedHotel.location;
-          hotel.rating = updatedHotel.rating;
-          hotel.reviews = updatedHotel.reviews;
-          hotel.image = updatedHotel.image;
-          hotel.price = updatedHotel.price;
-          hotel.description = updatedHotel.description;
-        }
-      });
+      await Hotel.findByIdAndUpdate(hotelId, updateHotel);
     
       // Return the response
       res.status(200).send();

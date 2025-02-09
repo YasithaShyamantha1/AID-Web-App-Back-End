@@ -1,17 +1,23 @@
 import mongoose from "mongoose";
 
-const connectDB = async ()=>{
-    try{
-       const MONGODB_URL = process.env.MONGODB_URL;
-       if(!MONGODB_URL){
-        throw new Error("MONGODB_URL is not set");
-       }
-        
-        console.log("Connect to the DataBase")
-    } catch(error){
-        console.log("Error connecting Data Base...")
-        console.log(error)
+const connectDB = async () => {
+    const uri = process.env.MONGO_URI;
+    if (!uri) {
+      console.error("Error: MONGO_URI is not defined in the environment variables.");
+      process.exit(1); // Exit the process if MONGO_URI is not defined
     }
-};
+  
+    try {
+      const connection = await mongoose.connect(uri, {
+        serverSelectionTimeoutMS: 10000, // Timeout after 10 seconds instead of hanging
+      });
+      console.log(`MongoDB connected`);
+    } catch (error) {
+      console.error("Error connecting to the database:", error.message);
+      process.exit(1);
+    }
+  };
+  
+  export default connectDB;
+  
 
-export default connectDB;
