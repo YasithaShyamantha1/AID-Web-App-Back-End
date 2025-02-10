@@ -1,4 +1,4 @@
-import User from "../infrastructure/schemas/User.js";
+import User from "../infrastucture/schemas/UserModel.js";
 
 export const createUser = async (req, res) => {
   const user = req.body;
