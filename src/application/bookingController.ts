@@ -1,6 +1,7 @@
-import Booking from "../infrastucture/schemas/BookingModel.js";
+import { Request,Response } from "express";
+import Booking from "../infrastucture/schemas/BookingModel";
 
-export const createBooking = async (req, res) => {
+export const createBooking = async (req: Request, res: Response) => {
   try {
     const { hotelId, userId, checkIn, checkOut, roomNumber } = req.body;
 
@@ -25,7 +26,7 @@ export const createBooking = async (req, res) => {
   }
 };
 
-export const getAllBookingsForHotel = async (req, res) => {
+export const getAllBookingsForHotel = async (req: Request, res: Response) => {
   try {
     const { hotelId } = req.params;
     const bookings = await Booking.find({ hotelId }).populate("userId");
@@ -37,7 +38,7 @@ export const getAllBookingsForHotel = async (req, res) => {
   }
 };
 
-export const getAllBookings = async (req, res) => {
+export const getAllBookings = async (req: Request, res: Response) => {
   try {
     const bookings = await Booking.find();
     res.status(200).json(bookings);

@@ -1,9 +1,9 @@
 import "dotenv/config";
 import express from "express";
-import hotelRouter from "./api/hotelRoutes.js";
-import connectDB from "./infrastucture/db.js";
-import usersRouter from "./api/userRouter.js";
-import bookingsRouter from "./api/BookingRoutes.js";
+import hotelRouter from "./api/hotelRoutes";
+import connectDB from "./infrastucture/db";
+import usersRouter from "./api/userRouter";
+import bookingsRouter from "./api/bookingRoutes";
 
 
 
@@ -20,7 +20,7 @@ app.use("/api/booking",bookingsRouter);
 
 
 const PORT = 8000;
-app.listen(PORT, console.log(`Server is running on port ${PORT}...`));
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}...`));
 // console.log("MongoDB URI:", process.env.MONGO_URI);
 
 

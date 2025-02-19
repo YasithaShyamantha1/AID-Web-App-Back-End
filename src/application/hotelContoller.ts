@@ -1,4 +1,5 @@
-import Hotel from "../infrastucture/schemas/HotelModel.js";
+import { Request,Response } from "express";
+import Hotel from "../infrastucture/schemas/HotelModel";
 const hotels =[
     {
         _id: "1",
@@ -106,12 +107,12 @@ const hotels =[
       },
 ]
 
-export const gettAllHotels = async(req,res)=>{
+export const gettAllHotels = async(req: Request, res: Response)=>{
   const hotels = await Hotel.find({});
 
     res.status(200).json(hotels);
 };
-export const getHotelById = async(req,res)=>{
+export const getHotelById = async(req: Request, res: Response)=>{
     const hotelId = await req.params.id;
     const hotel = hotels.find((hotel) =>hotel._id === hotelId);
     if(!hotel){
@@ -121,7 +122,7 @@ export const getHotelById = async(req,res)=>{
     res.status(200).json(hotel);
     
 };
-export const createHotel = async (req, res) => {
+export const createHotel = async (req: Request, res: Response) => {
   const hotel = req.body;
 
   try {
@@ -137,12 +138,12 @@ export const createHotel = async (req, res) => {
 
     res.status(201).json(newHotel);
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    res.status(400).json();
   }
 };
 
 
-export const delteHotel = async(req,res)=>{
+export const deleteHotel = async(req: Request, res: Response)=>{
     const hotelId =req.params.id;
     await Hotel.findByIdAndDelete(hotelId);
 
@@ -160,7 +161,7 @@ export const delteHotel = async(req,res)=>{
       // Return the response
       res.status(200).send();
 }
-export const updateHotel = async(req,res)=>{
+export const updateHotel = async(req: Request, res: Response)=>{
     const hotelId = req.params.hotelId;
     const updatedHotel = req.body;
 

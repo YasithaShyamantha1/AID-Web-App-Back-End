@@ -3,7 +3,7 @@ import {
   createBooking,
   getAllBookingsForHotel,
   getAllBookings,
-} from "../application/bookingController.js";
+} from "../application/bookingController";
 
 const bookingsRouter = express.Router();
 

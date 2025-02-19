@@ -1,6 +1,7 @@
-import User from "../infrastucture/schemas/UserModel.js";
+import { Request,Response } from "express";
+import User from "../infrastucture/schemas/UserModel";
 
-export const createUser = async (req, res) => {
+export const createUser = async (req: Request, res: Response) => {
   const user = req.body;
 
   // Validate the request data
